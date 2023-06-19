@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Sistema de Chamados</title>
+    <link rel="stylesheet" href="CSS/STYLE.CSS">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+      .top-container {
+        background-color: #4CAF50;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        color: rgb(224, 213, 213);
+      }
+  
+      .logo {
+        font-size: 26px;
+        font-weight: bold;
+        margin-left:22px auto;
+      }
+  
+      .search-icon,
+      .settings-icon {
+        padding: 10px;
+        cursor: pointer;
+        margin-left: 40px;
+        font-size: 24px;
+        
+        
+      }
+  
+      .search-icon {
+        margin-left: auto;
+        margin-right: auto;
+      }
+  
+      .settings-icon {
+        margin-top: -8px;
+        margin-right: -60 px;
+        
+      }
+  
+      .search-icon:hover,
+      .settings-icon:hover {
+        color: lightgray;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loading-indicator" class="loading-indicator"></div>
+    <div class="top-container">
+      <div class="logo">RC</div>
+      <i class="fas fa-search search-icon"></i>
+      <i class="fas fa-cog settings-icon"></i>
+  
+    </div>
+  
+    <!-- Restante do seu código -->
+  </body>
+  </html>
+  
+<head>
+  <title>Registro de Chamados</title>
+  <link rel="stylesheet" href="CSS/STYLE.CSS">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    /* Estilos gerais */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Estilos para o contêiner principal */
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f2f2f2;
+    }
+
+    /* Estilos para o contêiner do menu principal */
+    .menu-container {
+      background-color: #f3e9e9;
+      box-shadow: 0px 4px 10px rgba(2, 2, 1g, 1.1);
+      margin: right 40px;
+      border-radius: 6px;
+      box-shadow: 0px 1px 3px rgba(1, 1, 1, 1.1);
+      padding: 40px;
+      width: 500px;
+    }
+
+    /* Estilos para o título */
+    h2 {
+      text-align: center;
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    /* Estilos para os campos de entrada */
+    input[type="text"] {
+      width: 100%;
+      margin-bottom: 20px;
+      padding: 12px;
+      border: 1px solid #ddd;
+      box-shadow: 0px 1px 3px rgba(1, 1, 1, 1.1);
+      border-radius: 4px;
+      background-color: #f7f7f7;
+      font-size: 16px;
+      color: #555;
+      text-align: left; 
+      position: relative;
+      left: -10px;
+    }
+
+    /* Estilos para o botão */
+    button {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 18px;
+      right:5px;
+    }
+
+    /* Estilos para o contêiner da tabela */
+    .table-container {
+      margin-top: 40px;
+    }
+
+    /* Estilos para a tabela */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    /* Estilos para as células da tabela */
+    th, td {
+      padding: 16px;
+      background-color: #f9f9f9;
+    }
+
+    /* Estilos para o cabeçalho da tabela */
+    th {
+      background-color: #4CAF50;
+      color: #fff;
+    }
+
+    /* Estilos para os ícones de edição e exclusão */
+    .edit-icon, .delete-icon {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="menu-container">
+      <h2>REGISTRO DE CHAMADOS</h2>
+      <input type="text" id="id-chamado" placeholder="ID CHAMADO">
+      <input type="text" id="unidade" placeholder="UNIDADE">
+      <input type="text" id="descricao" placeholder="DESCRIÇÃO">
+      <input type="text" id="estado" placeholder="ESTADO">
+      <button onclick="registrarChamado()">REGISTRAR</button>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table id="tabela-chamados">
+      <tr>
+        <th>ID CHAMADO</th>
+        <th>UNIDADE</th>
+        <th>DESCRIÇÃO</th>
+        <th>ESTADO</th>
+        <th></th> <!-- Coluna vazia para o ícone de edição -->
+        <th></th> <!-- Coluna vazia para o ícone de exclusão -->
+      </tr>
+    </table>
+  </div>
+
+  <script>
+    // Função para salvar os dados da tabela no localStorage
+    function salvarDados() {
+      var tabela = document.getElementById("tabela-chamados");
+      var dados = [];
+
+      // Itera pelas linhas da tabela, ignorando a primeira linha (cabeçalho)
+      for (var i = 1; i < tabela.rows.length; i++) {
+        var linha = tabela.rows[i];
+        var colunas = linha.getElementsByTagName("td");
+        var registro = {};
+
+        // Obtém os valores das células da linha
+        registro.idChamado = colunas[0].innerHTML;
+        registro.unidade = colunas[1].innerHTML;
+        registro.descricao = colunas[2].innerHTML;
+        registro.estado = colunas[3].innerHTML;
+
+        // Adiciona o registro ao array de dados
+        dados.push(registro);
+      }
+
+      // Converte o array de dados em uma string JSON
+      var dadosJSON = JSON.stringify(dados);
+
+      // Salva a string JSON no localStorage
+      localStorage.setItem("dadosTabela", dadosJSON);
+    }
+
+    // Função para carregar os dados da tabela do localStorage
+    function carregarDados() {
+      // Obtém a string JSON do localStorage
+      var dadosJSON = localStorage.getItem("dadosTabela");
+
+      // Verifica se há dados salvos
+      if (dadosJSON) {
+        // Converte a string JSON em um array de dados
+        var dados = JSON.parse(dadosJSON);
+
+        // Obtém a referência da tabela
+        var tabela = document.getElementById("tabela-chamados");
+
+        // Limpa a tabela
+        tabela.innerHTML = "";
+
+        // Adiciona o cabeçalho na tabela
+        var cabecalho = tabela.insertRow();
+        cabecalho.innerHTML = "<th>ID CHAMADO</th><th>UNIDADE</th><th>DESCRIÇÃO</th><th>ESTADO</th><th></th><th></th>";
+
+        // Itera pelos dados e adiciona as linhas na tabela
+        for (var i = 0; i < dados.length; i++) {
+          var registro = dados[i];
+          var linha = tabela.insertRow();
+          linha.innerHTML = "<td>" + registro.idChamado + "</td><td>" + registro.unidade + "</td><td>" + registro.descricao + "</td><td>" + registro.estado + "</td><td><i class='fas fa-edit edit-icon' onclick='editarChamado(this)'></i></td><td><i class='fas fa-trash delete-icon' onclick='confirmarExclusao(this)'></i></td>";
+        }
+      }
+    }
+
+    // Função para registrar um novo chamado
+    function registrarChamado() {
+      var idChamado = document.getElementById("id-chamado").value;
+      var unidade = document.getElementById("unidade").value;
+      var descricao = document.getElementById("descricao").value;
+      var estado = document.getElementById("estado").value;
+
+      // Adicionar uma nova linha à tabela com os valores dos campos
+      var tabela = document.getElementById("tabela-chamados");
+      var linha = tabela.insertRow();
+      var colunaIdChamado = linha.insertCell(0);
+      var colunaUnidade = linha.insertCell(1);
+      var colunaDescricao = linha.insertCell(2);
+      var colunaEstado = linha.insertCell(3);
+      var colunaEditar = linha.insertCell(4);
+      var colunaExcluir = linha.insertCell(5);
+
+      colunaIdChamado.innerHTML = idChamado;
+      colunaUnidade.innerHTML = unidade;
+      colunaDescricao.innerHTML = descricao;
+      colunaEstado.innerHTML = estado;
+      colunaEditar.innerHTML = '<i class="fas fa-edit edit-icon" onclick="editarChamado(this)"></i>';
+      colunaExcluir.innerHTML = '<i class="fas fa-trash delete-icon" onclick="confirmarExclusao(this)"></i>';
+
+      // Exibir o contêiner da tabela
+      document.getElementsByClassName("table-container")[0].style.display = "block";
+
+      // Limpar os campos de entrada após o registro
+      document.getElementById("id-chamado").value = "";
+      document.getElementById("unidade").value = "";
+      document.getElementById("descricao").value = "";
+      document.getElementById("estado").value = "";
+
+      // Salvar os dados atualizados
+      salvarDados();
+    }
+
+    // Função para editar um chamado
+    function editarChamado(editIcon) {
+      var linha = editIcon.parentNode.parentNode;
+      var colunas = linha.getElementsByTagName("td");
+
+      for (var i = 0; i < colunas.length - 2; i++) {
+        var valorAtual = colunas[i].innerHTML;
+        colunas[i].innerHTML = '<input type="text" value="' + valorAtual + '">';
+      }
+
+      // Substituir o ícone de edição pelo ícone de confirmação
+      var colunaEditar = colunas[colunas.length - 2];
+      colunaEditar.innerHTML = '<i class="fas fa-check confirm-icon" onclick="confirmarEdicao(this)"></i>';
+    }
+
+    // Função para confirmar a edição de um chamado
+    function confirmarEdicao(confirmIcon) {
+      var linha = confirmIcon.parentNode.parentNode;
+      var colunas = linha.getElementsByTagName("td");
+
+      for (var i = 0; i < colunas.length - 2; i++) {
+        var novoValor = colunas[i].getElementsByTagName("input")[0].value;
+        colunas[i].innerHTML = novoValor;
+      }
+
+      // Substituir o ícone de confirmação pelo ícone de edição
+      var colunaEditar = colunas[colunas.length - 2];
+      colunaEditar.innerHTML = '<i class="fas fa-edit edit-icon" onclick="editarChamado(this)"></i>';
+
+      // Salvar os dados atualizados
+      salvarDados();
+    }
+
+    // Função para confirmar a exclusão de um chamado
+    function confirmarExclusao(deleteIcon) {
+      var confirmar = confirm("Tem certeza que deseja excluir?");
+      if (confirmar) {
+        var linha = deleteIcon.parentNode.parentNode;
+        linha.remove();
+
+        // Salvar os dados atualizados
+        salvarDados();
+      }
+    }
+
+    // Carregar os dados ao carregar a página
+    carregarDados();
+  </script>
+</body>
+</html>

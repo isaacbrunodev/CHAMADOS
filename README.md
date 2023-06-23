@@ -1,5 +1,7 @@
 # Registro de Chamados
 
+![GIF de Registro de Chamados](GIF-RC.gif)
+
 Este é um programa de registro de chamados que permite a criação e armazenamento de chamados em uma tabela. O programa oferece uma interface simples e intuitiva para registrar os detalhes dos chamados, como título, descrição, data e outras informações relevantes.
 
 Recursos e funcionalidades:

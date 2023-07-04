@@ -35,3 +35,17 @@ function registrarChamado() {
   // Salvar os dados atualizados
   salvarDados();
 }
+function showLoading() {
+  var button = document.getElementById("register-button");
+  button.innerHTML = "Carregando...";
+  button.disabled = true;
+
+  // Simular um carregamento ou enviar uma solicitação ao servidor
+  // Aqui você pode adicionar o código para fazer o registro ou qualquer outra ação necessária
+
+  // Exemplo de atraso de 2 segundos antes de retornar ao texto original do botão
+  setTimeout(function() {
+    button.innerHTML = "Registrar";
+    button.disabled = false;
+  }, 2000);
+}
